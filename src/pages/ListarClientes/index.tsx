@@ -4,6 +4,8 @@ import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import { BASE_URL } from '../../util/Request';
 
+import {useNavigate} from 'react-router-dom'
+
 interface Cliente {
     id: number;
     nome: string;
@@ -20,6 +22,16 @@ function ListarClientes() {
             })
         
     }, []);
+
+    const handleDelete = async (id: number) => {
+        try {
+            await axios.delete(`${BASE_URL}/cliente/${id}/removerCliente`);
+            alert('Cadastro Removido com Sucesso');
+            setClientes(clientes.filter((clientes) => clientes.id !== id));
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         <Table striped bordered hover>
@@ -39,8 +51,7 @@ function ListarClientes() {
                         <td>{cliente.cpf}</td>
                         <td>
                         <Button variant="warning" size="sm">EDITAR</Button>
-                        <Button variant="info" size="sm">VER</Button>
-                        <Button variant="danger" size="sm">EXCLUIR</Button>
+                        <Button variant="danger" size="sm" onClick={() => handleDelete(cliente.id)}>EXCLUIR</Button>
                     </td>
                     </tr>
                 ))}
