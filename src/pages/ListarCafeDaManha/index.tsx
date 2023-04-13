@@ -3,8 +3,7 @@ import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import { BASE_URL } from '../../util/Request';
-import {format} from 'date-fns'
-
+import { format, addDays } from 'date-fns'
 
 interface CafeDaManha {
     id: number;
@@ -22,15 +21,24 @@ function listarCafeDaManha() {
 
     }, []);
 
+    const handleExcluirCafe = async (id: number) => {
+        try {
+            await axios.delete(`${BASE_URL}/cafeDaManha/${id}/removerCafe`);
+            alert('Café Excluido com Sucesso');
+            window.location.reload();
+        } catch (error) {
+            alert('Exclua todos os itens do Café antes de excluir um Café da Manha.');
+        }
+    }
+
     return (
         <div>
-            <Button variant="success">Marcar Café</Button>
+            <Button variant="success" href='/cafe'>Marcar Café</Button>
             <Table striped bordered hover>
                 <thead>
                     <tr>
                         <th>ID</th>
                         <th>Data do Café</th>
-                        <th>Responsavel</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -38,11 +46,10 @@ function listarCafeDaManha() {
                     {cafeDaManha.map((cafedamanha) => (
                         <tr key={cafedamanha.id}>
                             <td>{cafedamanha.id}</td>
-                            <td>{format(new Date(cafedamanha.dataDoCafe), 'dd-MM-yyyy')}</td>
-                            <td>{}</td>
+                            <td>{format(addDays(new Date(cafedamanha.dataDoCafe), 1), 'dd/MM/yyyy')}</td>
                             <td>
-                                <Button variant="info" size="sm">VER</Button>
-                                <Button variant="danger" size="sm">EXCLUIR</Button>
+                                <Button variant="info" size="sm" href={`/${cafedamanha.id}/item-cafe`}>VER</Button>
+                                <Button variant="danger" size="sm" onClick={() => handleExcluirCafe(cafedamanha.id)}>EXCLUIR</Button>
                             </td>
                         </tr>
                     ))}
