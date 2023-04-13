@@ -3,8 +3,10 @@ import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import { BASE_URL } from '../../util/Request';
+import { cpf } from 'cpf-cnpj-validator'; 
 
-import {useNavigate} from 'react-router-dom'
+
+import { useNavigate } from 'react-router-dom'
 
 interface Cliente {
     id: number;
@@ -20,7 +22,7 @@ function ListarClientes() {
             .then(response => {
                 setClientes(response.data)
             })
-        
+
     }, []);
 
     const handleDelete = async (id: number) => {
@@ -48,11 +50,11 @@ function ListarClientes() {
                     <tr key={cliente.id}>
                         <td>{cliente.id}</td>
                         <td>{cliente.nome}</td>
-                        <td>{cliente.cpf}</td>
+                        <td>{cpf.format(cliente.cpf)}</td>
                         <td>
-                        <Button variant="warning" size="sm">EDITAR</Button>
-                        <Button variant="danger" size="sm" onClick={() => handleDelete(cliente.id)}>EXCLUIR</Button>
-                    </td>
+                            <Button variant="warning" size="sm" href={`${cliente.id}/edit`}>EDITAR</Button>
+                            <Button variant="danger" size="sm" onClick={() => handleDelete(cliente.id)}>EXCLUIR</Button>
+                        </td>
                     </tr>
                 ))}
 
