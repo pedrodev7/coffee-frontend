@@ -6,8 +6,10 @@ import {
 import Cadastro from "../pages/CadastroCliente";
 import Lista from "../pages/ListarClientes";
 import ItemCafe from "../pages/ListarItensDoCafe"
-import CafeDaManha from "../pages/CafeDaManha"
-
+import CafeDaManha from "../pages/ListarCafeDaManha"
+import AddItemCafe from "../pages/CadastroItemCafe"
+import Cafe from "../pages/CadastroCafe";
+import EditarCliente from "../pages/EditarCliente"
 
 
 export const Router = () => {
@@ -16,8 +18,11 @@ export const Router = () => {
             <Routes>
                 <Route path="/" element={<CafeDaManha />}/>
                 <Route path="/cadastro" element={<Cadastro />} />
+                <Route path="/cafe" element={<Cafe />} />
                 <Route path="/lista" element={<Lista />} />
-                <Route path="/item-cafe" element={<ItemCafe />} />
+                <Route path="/:id/item-cafe" element={<ItemCafe />} />
+                <Route path="/:id/add-item-cafe" element={<AddItemCafe />} />
+                <Route path="/:id/edit" element={<EditarCliente />} />
             </Routes>
         </BrowserRouter>
 
