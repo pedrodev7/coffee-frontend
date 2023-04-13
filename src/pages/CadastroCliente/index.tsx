@@ -6,6 +6,7 @@ import Row from 'react-bootstrap/Row';
 import { useState } from 'react';
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom'
+import { BASE_URL } from '../../util/Request';
 
 function CadastrarCliente() {
 
@@ -17,11 +18,11 @@ function CadastrarCliente() {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:8080/cliente/addCliente', { nome, cpf })
+            await axios.post(`${BASE_URL}/cliente/addCliente`, { nome, cpf })
             alert('Cadastro Realizado com Sucesso!');
-            navigate('/');
+            navigate('/lista');
         } catch (error) {
-            console.log(error);
+            alert('Erro no Cadastro')
         }
     }
 
@@ -35,14 +36,10 @@ function CadastrarCliente() {
             </Form.Group>
 
             <Row className="mb-4">
-                <Form.Group as={Col} controlId="nomeSocial">
-                    <Form.Label>Nome Social</Form.Label>
-                    <Form.Control  placeholder="João Silva" />
-                </Form.Group>
 
                 <Form.Group as={Col} controlId="cpf">
-                    <Form.Label>CPF</Form.Label>
-                    <Form.Control value={cpf} onChange={(e) => setCpf(e.target.value)} placeholder="000.000.000.00" />
+                    <Form.Label>CPF (apenas numeros)</Form.Label>
+                    <Form.Control value={cpf} onChange={(e) => setCpf(e.target.value)} placeholder="000.000.000-00" />
                 </Form.Group>
             </Row>
 
